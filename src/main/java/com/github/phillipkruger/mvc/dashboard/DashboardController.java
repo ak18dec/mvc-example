@@ -1,5 +1,6 @@
 package com.github.phillipkruger.mvc.dashboard;
 
+import com.github.phillipkruger.config.FeedService;
 import javax.inject.Inject;
 import javax.mvc.annotation.Controller;
 import javax.ws.rs.GET;
@@ -15,10 +16,15 @@ public class DashboardController {
     @Inject
     private Dashboard dashboard;
   
+    @Inject
+    private FeedService feedService;
+    
     @Controller
     @GET
     public String list() {
-        dashboard.setName("Hello World");
+        //String urls = feedService.getUrls();
+        
+        dashboard.setName("Hello World ");
         
         return "dashboard.jsp";
     }

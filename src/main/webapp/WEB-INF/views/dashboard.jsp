@@ -15,8 +15,9 @@
     <body>
         <h2 class="ui center aligned icon header">
             <i class="circular feed icon"></i>
-            Feeds
+            ${dashboard.name}
         </h2>
+        
         <div class="ui grid container">
             <div class="four wide column">
                 <div class="ui card">
