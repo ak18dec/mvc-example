@@ -54,7 +54,6 @@
         <semantic-ui.version>2.2.10</semantic-ui.version>
         <jquery.version>2.1.4</jquery.version>
         <font-awesome.version>4.7.0</font-awesome.version>
-        <bootstrap.version>3.3.7-1</bootstrap.version>
         
         <!-- Log level -->
         <log.name>com.github.phillipkruger</log.name>
@@ -88,7 +87,7 @@
         <dependency>
             <groupId>com.github.phillip-kruger.microprofile-extentions</groupId>
             <artifactId>config-converters</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
             
         <!-- MVC Spec -->
@@ -98,14 +97,12 @@
             <version>${mvc.version}</version>
         </dependency>
         
-        <!-- Thymeleaf MVC View -->
-<!--        <dependency>
-            <groupId>org.mvc-spec.ozark.ext</groupId>
-            <artifactId>ozark-thymeleaf</artifactId>
-            <version>${ozark.version}</version>
-            <scope>compile</scope>
-        </dependency>-->
-        
+        <!-- To read RSS -->
+        <dependency>
+            <groupId>rome</groupId>
+            <artifactId>rome</artifactId>
+            <version>1.0</version>
+        </dependency>
         
         <!-- Webjars: see http://www.webjars.org/documentation -->
         <dependency>
@@ -147,6 +144,7 @@
                             <includes>
                                 <include>**/*.css</include>
                                 <include>**/*.jsp</include>
+                                <include>**/*.tag</include>
                             </includes>
                         </resource>
                     </webResources>
@@ -158,10 +156,10 @@
     
     <profiles>
         <profile>
-            <id>wildfly-swarm-fatjar</id>
+            <id>wildfly-swarm-run</id>
             <activation>
                 <property>
-                    <name>wildfly-swarm-fatjar</name>
+                    <name>wildfly-swarm-run</name>
                 </property>
             </activation>
             
@@ -173,7 +171,26 @@
                 </dependency>    
             </dependencies>
             
-        </profile>    
+        </profile> 
+        <profile>
+            <id>wildfly-swarm-start</id>
+            <activation>
+                <property>
+                    <name>wildfly-swarm-start</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+                <dependency>
+                    <groupId>org.mvc-spec.ozark</groupId>
+                    <artifactId>ozark-resteasy</artifactId>
+                    <version>${ozark.version}</version>
+                </dependency>    
+            </dependencies>
+            
+        </profile> 
+           
+                 
         <profile>
             <id>wildfly-swarm-deploy</id>
             <activation>

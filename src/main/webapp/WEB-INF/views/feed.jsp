@@ -3,13 +3,13 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:layout>
-    <jsp:attribute name="title">${dashboard.name}</jsp:attribute>
+    <jsp:attribute name="title">${feed.title}</jsp:attribute>
     <jsp:body>
         <div class="ui grid container">
             
             <div class="ui link cards">
             
-                <c:forEach var="feed" items="${dashboard.feeds}">
+                <c:forEach var="entry" items="${feed.entries}">
                     <div class="card">
                         
                         <div class="image">
@@ -17,22 +17,29 @@
                         </div>
                         
                         <div class="content">
-                            <a class="header" href="${feed.link}" target="_blank">${feed.title}</a>
+                            <a class="header" href="${entry.link}" target="_blank">${entry.title}</a>
                             <div class="meta">
-                                <span class="date">${feed.publishedDate}</span>
+                                <span class="date">${entry.publishedDate}</span>
                             </div>
                             <div class="description">
-                                ${feed.description}
+                                ${entry.description}
                             </div>
                         </div>
                         <div class="extra content">
-                            <a href="${feed.uri}" target="_blank"><i class="feed icon"></i></a>
-                            ${feed.entries.size()} Articles
+                            <a href="${entry.uri}" target="_blank"><i class="feed icon"></i></a>
+                            Read
                         </div>
                     </div>
                 
                 </c:forEach>
             </div>
         </div>
+        
+        
     </jsp:body>
 </t:layout>
+
+
+
+
+
