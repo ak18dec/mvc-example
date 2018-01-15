@@ -63,10 +63,12 @@ public class FeedFetcher implements Serializable{
         }
     }
     
+    @Retry(maxRetries = 3)
     public SyndFeed fetch(@NonNull FeedConfig feedConfig){
         return fetch(feedConfig, false);
     }
     
+    @Retry(maxRetries = 3)
     public SyndFeed fetch(@NonNull FeedConfig feedConfig, boolean noCache){
         URL feedUrl = feedConfig.getUrl();
         
@@ -121,4 +123,6 @@ public class FeedFetcher implements Serializable{
     public Future<SyndFeed> fetchAsync(@NonNull FeedConfig feedConfig) {
         return CompletableFuture.completedFuture(fetch(feedConfig));
     }
+
+    
 }

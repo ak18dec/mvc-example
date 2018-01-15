@@ -18,18 +18,21 @@
                             <a class="header" href="${mvc.contextPath}/view/feed/${f.id}">${f.title}</a>
                             <div class="meta">
                                 <span>${f.description}</span>
+                                <c:if test="${not empty f.copyright}">
+                                    <i class="copyright icon" title="${f.copyright}"></i>
+                                </c:if>
                             </div>
                             <div class="description">
                                 <p>${f.entries.size()} Articles</p>
                             </div>
-                            
-                            <c:if test="${f.copyright != null}">
-                                <div class="extra">
-                                    &copy; <span class="date">${f.copyright}</span>
+                            <div class="extra">
+                                <div class="ui right floated">
+                                    <i class="large refresh icon" style="color:darkseagreen;cursor: pointer;" title="Refresh" onclick="window.open('${mvc.contextPath}/view/refresh/${f.id}', '_self');"></i>
+                                    <i class="large trash outline icon" style="color:lightcoral;cursor: pointer;" title="Remove"></i>
                                 </div>
-                            </c:if>
-                            
+                            </div>
                         </div>
+                        
                     </div>
                 </c:forEach>
                 

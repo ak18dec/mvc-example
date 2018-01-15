@@ -1,5 +1,6 @@
 package com.github.phillipkruger.mvc.feed;
 
+import java.net.URL;
 import javax.inject.Inject;
 import javax.mvc.Models;
 import javax.mvc.annotation.Controller;

@@ -9,7 +9,6 @@
         <br/>
         <div class="ui grid container">
             
-            
             <div class="ui three stackable cards">
                 <c:forEach var="entry" items="${feed.entries}">
                     <div class="card">
@@ -54,6 +53,10 @@
                             <fmt:formatDate value="${entry.publishedDate}" pattern="dd MMMMM yyyy hh:mm:ss a"/>
                         </div>
                         <div class="actions">
+                            <div class="ui black deny button" style="cursor: pointer;" onclick="$('#${entry.id}').modal('hide');">
+                                Close
+                            </div>
+                            
                             <div class="ui positive right labeled icon button" style="cursor: pointer;" onclick="window.open('${entry.link}', '_blank');">
                                 Read full article
                                 <i class="external icon"></i>

@@ -66,6 +66,14 @@ public class FeedService {
         return toFeed(feedFetcher.fetch(id));
     }
     
+    public void reload(int id) {
+        Feed feed = getFeed(id);
+        if(feed!=null){
+            FeedConfig config = new FeedConfig(feed.getUri(),feed.getTitle());
+            feedFetcher.fetch(config, true);
+        }
+    }
+    
     private Feed toFeed(SyndFeed f) {
         Feed feed = new Feed();
         int hash = f.getUri().hashCode();
@@ -162,4 +170,6 @@ public class FeedService {
         }
         
     }
+
+    
 }
