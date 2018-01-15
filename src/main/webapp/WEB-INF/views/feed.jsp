@@ -1,38 +1,69 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:layout>
-    <jsp:attribute name="title">${feed.title}</jsp:attribute>
+<t:layout title="${feed.title}" icon="${feed.image}">
     <jsp:body>
+        
+        <br/>
         <div class="ui grid container">
             
-            <div class="ui link cards">
             
+            <div class="ui three stackable cards">
                 <c:forEach var="entry" items="${feed.entries}">
                     <div class="card">
-                        
-                        <div class="image">
-                            <img src="${feed.image.url}" title="${feed.image.title}" onclick="window.open('feed/${feed.uri.hashCode()}', '_self');">
+                        <div class="image" style="cursor: zoom-in;" onclick="$('#${entry.id}').modal('show');">
+                            <img src="${entry.imageLink}">
                         </div>
-                        
+                      
                         <div class="content">
-                            <a class="header" href="${entry.link}" target="_blank">${entry.title}</a>
-                            <div class="meta">
-                                <span class="date">${entry.publishedDate}</span>
-                            </div>
+                            <div class="header">${entry.title}</div>
+                            
                             <div class="description">
-                                ${entry.description}
+                                ${entry.content}
                             </div>
+                            
+                            <div class="meta right floated">
+                                <a href="${entry.link}" target="_blank">Read full article <i class="external icon"></i></a>
+                            </div>
+                            
                         </div>
                         <div class="extra content">
-                            <a href="${entry.uri}" target="_blank"><i class="feed icon"></i></a>
-                            Read
+                            <span class="right floated">
+                                <fmt:formatDate value="${entry.publishedDate}" pattern="hh:mm:ss a"/>
+                            </span>
+                            <span>
+                                <i class="calendar icon"></i>
+                                <fmt:formatDate value="${entry.publishedDate}" pattern="dd MMMMM yyyy"/>
+                            </span>
                         </div>
+                      
+                      
                     </div>
-                
+                    
+                    <div class="ui modal" id="${entry.id}">
+                        <div class="header">${entry.title}</div>
+                        <div class="image content">
+                            <img class="image" src="${entry.imageLink}">
+
+                        </div>
+                        <div class="content description">
+                            <p>${entry.content}</p>
+                            <i class="calendar icon"></i>
+                            <fmt:formatDate value="${entry.publishedDate}" pattern="dd MMMMM yyyy hh:mm:ss a"/>
+                        </div>
+                        <div class="actions">
+                            <div class="ui positive right labeled icon button" style="cursor: pointer;" onclick="window.open('${entry.link}', '_blank');">
+                                Read full article
+                                <i class="external icon"></i>
+                            </div>
+                        </div>
+                    </div>        
+                            
                 </c:forEach>
-            </div>
+              </div>
+            
         </div>
         
         

@@ -21,14 +21,12 @@ public class FeedController {
     
     @Inject
     private Models models;
-
+    
     @Controller
     @GET
     @Path("/{id}")
     public String getFeed(@PathParam("id") int id) {
         models.put("feed", feedService.getFeed(id));
-        return "feed.jsp"; // Why do I have to know the extention (jsp) ??
+        return "feed.jsp";
     }
-
-    
 }

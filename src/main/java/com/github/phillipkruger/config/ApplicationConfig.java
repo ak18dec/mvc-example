@@ -26,12 +26,20 @@ public class ApplicationConfig {
    
     @Getter
     @Inject
-    @ConfigProperty(name = "dashboardName",defaultValue = "Demo")
+    @ConfigProperty(name = "dashboardName",defaultValue = "MVC Example")
     private String dashboardName;
     
+    @Getter
     @Inject
-    //@ConfigProperty(name = "feeds",defaultValue = "[{\"url\":\"http://feeds.news24.com/articles/news24/TopStories/rss\",\"interval\":3600},{\"url\":\"http://feeds.news24.com/articles/news24/SouthAfrica/rss\",\"interval\":3600}]")
-    @ConfigProperty(name = "feeds",defaultValue = "[{\"url\":\"https://www.infoworld.com/blog/open-sources/index.rss\",\"interval\":3600},{\"url\":\"https://www.javaworld.com/index.rss\",\"interval\":3600}]")
+    @ConfigProperty(name = "dashboardIcon",defaultValue = "https://www.mvc-spec.org/img/Logo_MVC_www_rgb.png")
+    private URL dashboardIcon;
+    
+    @Inject
+    @ConfigProperty(name = "feeds",defaultValue = "["
+            + "{\"url\":\"http://feeds.bbci.co.uk/news/world/rss.xml?edition=uk\",\"title\":\"World News\"},"
+            + "{\"url\":\"http://feeds.bbci.co.uk/news/rss.xml?edition=uk\",\"title\":\"News\"},"
+            + "{\"url\":\"http://feeds.bbci.co.uk/news/technology/rss.xml?edition=uk\",\"title\":\"Technology\"},"
+            + "{\"url\":\"http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml?edition=uk\",\"title\":\"Entertainment\"}]")
     private JsonArray feeds;
     
     public List<FeedConfig> getFeeds(){
@@ -43,11 +51,11 @@ public class ApplicationConfig {
         
         while(feedIterator.hasNext()){
             JsonObject feed = (JsonObject)feedIterator.next();
-            int interval = feed.getInt("interval");
+            String title = feed.getString("title");
             String surl = feed.getString("url");
             URL url = toURL(surl);
             
-            if(url!=null)feedList.add(new FeedConfig(url, interval));
+            if(url!=null)feedList.add(new FeedConfig(url, title));
         }
         
         return feedList;

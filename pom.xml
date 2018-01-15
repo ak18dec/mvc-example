@@ -99,10 +99,17 @@
         
         <!-- To read RSS -->
         <dependency>
-            <groupId>rome</groupId>
+            <groupId>com.rometools</groupId>
             <artifactId>rome</artifactId>
-            <version>1.0</version>
+            <version>1.9.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.rometools</groupId>
+            <artifactId>rome-modules</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+        
+        
         
         <!-- Webjars: see http://www.webjars.org/documentation -->
         <dependency>

@@ -1,9 +1,16 @@
 package com.github.phillipkruger.mvc.feed;
 
 import com.github.phillipkruger.config.FeedConfig;
-import com.sun.syndication.feed.synd.SyndContent;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
+import com.rometools.modules.mediarss.MediaEntryModule;
+import com.rometools.modules.mediarss.MediaModule;
+import com.rometools.modules.mediarss.types.MediaContent;
+import com.rometools.modules.mediarss.types.Metadata;
+import com.rometools.modules.mediarss.types.Reference;
+import com.rometools.modules.mediarss.types.Thumbnail;
+import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndFeed;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,78 +34,132 @@ public class FeedService {
     @Inject
     private FeedFetcher feedFetcher;
     
-    public List<SyndFeed> getFeeds(List<FeedConfig> feedConfigurations){
+    public List<Feed> getFeeds(List<FeedConfig> feedConfigurations){
         
         List<Future<SyndFeed>> futureContentList = new ArrayList<>();
         
-        for(FeedConfig feedConfig:feedConfigurations){
-            URL url = feedConfig.getUrl();
-            
-            futureContentList.add(feedFetcher.fetchAsync(url));
-        }
+        feedConfigurations.forEach((feedConfig) -> {
+            futureContentList.add(feedFetcher.fetchAsync(feedConfig));
+        });
         
-        List<SyndFeed> feeds = new ArrayList<>();
+        List<Feed> feeds = new ArrayList<>();
         
-        for(Future<SyndFeed> futureContent:futureContentList){
+        futureContentList.forEach((futureContent) -> {
             try {
                 SyndFeed syndFeed = futureContent.get(5, TimeUnit.SECONDS);
                 if(syndFeed!=null){
-                    printFeed(syndFeed);
-                    feeds.add(syndFeed);
+                    feeds.add(toFeed(syndFeed));
                 }
             } catch (InterruptedException | ExecutionException | TimeoutException ex) {
                 log.log(Level.SEVERE, null, ex);
             }
-        }
+        });
         
         return feeds;
     }
 
     public SyndFeed getFeed(FeedConfig feedConfiguration){
-        return feedFetcher.fetch(feedConfiguration.getUrl());
+        return feedFetcher.fetch(feedConfiguration);
     }
     
-    public SyndFeed getFeed(int id){
-        return feedFetcher.fetch(id);
+    public Feed getFeed(int id){
+        return toFeed(feedFetcher.fetch(id));
     }
     
-    private void printFeed(SyndFeed f) {
-        log.fine("============== " + f.getTitle() + " ==============");
-        log.fine("author: " + f.getAuthor());
-        log.fine("copyright: " + f.getCopyright());
-        log.fine("description: " + f.getDescription());
-        log.fine("feedType: " + f.getFeedType());
-        log.fine("image: " + f.getImage());
-        log.fine("link: " + f.getLink());
-        log.fine("published date: " + f.getPublishedDate());
-        log.fine("uri: " + f.getUri());
-        log.fine("language: " + f.getLanguage());
-        log.fine("entries: " + f.getEntries().size());
+    private Feed toFeed(SyndFeed f) {
+        Feed feed = new Feed();
+        int hash = f.getUri().hashCode();
+        feed.setId(hash);
+        feed.setTitle(f.getTitle());
+        feed.setAuthor(f.getAuthor());
+        feed.setCopyright(f.getCopyright());
+        feed.setDescription(f.getDescription());
+        feed.setFeedType(f.getFeedType());
+        if(f.getImage()!=null)feed.setImage(toURL(f.getImage().getUrl()));
+        feed.setLink(toURL(f.getLink()));
+        feed.setPublishedDate(f.getPublishedDate());
+        feed.setUri(toURL(f.getUri()));
+        feed.setLanguage(f.getLanguage());
+        
+        List<Entry> entries = new ArrayList<>();
         
         if(!f.getEntries().isEmpty()){
-            SyndEntry entry = (SyndEntry)f.getEntries().get(0);
-            log.fine("    >>>>> " + entry.getTitle());
-            log.fine("          > author: " + entry.getAuthor());
-            log.fine("          > link: " + entry.getLink());
-            log.fine("          > uri: " + entry.getUri());
-            log.fine("          > contributors: " + entry.getContributors());
-            log.fine("          > enclosures: " + entry.getEnclosures());
-            log.fine("          > links: " + entry.getLinks());
-            log.fine("          > modules: " + entry.getModules());
-            log.fine("          > published date: " + entry.getPublishedDate());
-            log.fine("          > updated date: " + entry.getUpdatedDate());
-            log.fine("          > wire entry: " + entry.getWireEntry());
-            log.fine("          > contents: " + entry.getContents());
-            
-            SyndContent content = entry.getDescription();
-            log.fine("          >> mode: " + content.getMode());
-            log.fine("          >> type: " + content.getType());
-            log.fine("          >> value: " + content.getValue());
-            
-            log.fine("          >>>>>>>> classname: " + entry.getDescription().getClass().getName());
-            
+            f.getEntries().forEach((e) -> {
+                entries.add(toEntry(e));
+            });
+        }
+        feed.setEntries(entries);
+        
+        return feed;
+    }
+    
+    private Entry toEntry(SyndEntry e){
+        Entry entry = new Entry();
+        int hash = e.getUri().hashCode();
+        entry.setId(hash);
+        entry.setTitle(e.getTitle());
+        entry.setLink(toURL(e.getUri()));
+        entry.setUri(toURL(e.getLink()));
+        entry.setPublishedDate(e.getPublishedDate());
+        entry.setUpdatedDate(e.getUpdatedDate());
+        
+        SyndContent content = e.getDescription();
+        if(content!=null){
+            entry.setType(content.getType());
+            entry.setContent(content.getValue());
+        }
+        
+        MediaEntryModule mediaEntryModule = (MediaEntryModule)e.getModule( MediaModule.URI );
+        if(mediaEntryModule!=null){
+            MediaContent[] mediaContents = mediaEntryModule.getMediaContents();
+            if(mediaContents!=null && mediaContents.length>0){
+                MediaContent mediaContent = mediaContents[0];
+                if(mediaContent!=null && mediaContent.getMetadata()!=null && mediaContent.getMetadata().getThumbnail()!=null && mediaContent.getMetadata().getThumbnail().length>0){
+                    Thumbnail thumbnail = mediaContent.getMetadata().getThumbnail()[0];
+                    if(thumbnail.getUrl()!=null){
+                        try {
+                            entry.setImageLink(thumbnail.getUrl().toURL());
+                        } catch (MalformedURLException ex) {
+                            log.log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                // Try from another location
+                if(mediaContent!=null && entry.getImageLink()==null){
+                    Reference reference = mediaContent.getReference();
+                    if(reference!=null && !reference.toString().isEmpty()){
+                        entry.setImageLink(toURL(reference.toString()));   
+                    }
+                }
+            }    
+        }
+        // Try from yet another location
+        if(mediaEntryModule!=null && entry.getImageLink()==null){
+            Metadata metadata = mediaEntryModule.getMetadata();
+            if(metadata!=null && metadata.getThumbnail()!=null && metadata.getThumbnail().length>0){
+                Thumbnail thumbnail = metadata.getThumbnail()[0];
+                if(thumbnail!=null && thumbnail.getUrl()!=null){
+                    try {
+                        entry.setImageLink(thumbnail.getUrl().toURL());
+                    } catch (MalformedURLException ex) {
+                        log.log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+        return entry;
+
+    }
+    
+    
+    private URL toURL(String url){
+        if(url==null || url.isEmpty())return null;
+        try {
+            return new URL(url);
+        } catch (MalformedURLException ex) {
+            log.severe(ex.getMessage());
+            return null;
         }
         
     }
-    
 }

@@ -1,6 +1,7 @@
 package com.github.phillipkruger.config;
 
 import java.net.URL;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
  */
 @Data @AllArgsConstructor @NoArgsConstructor
 public class FeedConfig {
+    @NotNull
     public URL url;
-    public int interval;
+    public String title;
 }
