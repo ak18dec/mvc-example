@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.phillip-kruger</groupId>
         <artifactId>javaee-servers-parent</artifactId>
-        <version>javaee-7-v3</version>
+        <version>javaee-7-v4-SNAPSHOT</version>
     </parent>
     
     <groupId>com.github.phillip-kruger</groupId>
@@ -221,6 +221,150 @@
             <activation>
                 <property>
                     <name>wildfly-swarm-package</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+                <dependency>
+                    <groupId>org.mvc-spec.ozark</groupId>
+                    <artifactId>ozark-resteasy</artifactId>
+                    <version>${ozark.version}</version>
+                </dependency>    
+            </dependencies>
+            
+        </profile>
+        
+        <profile>
+            <id>payara-micro-run</id>
+            <activation>
+                <property>
+                    <name>payara-micro-run</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+                <dependency>
+                    <groupId>org.mvc-spec.ozark</groupId>
+                    <artifactId>ozark-jersey</artifactId>
+                    <version>${ozark.version}</version>
+                </dependency>    
+            </dependencies>
+            
+        </profile> 
+        <profile>
+            <id>payara-micro-start</id>
+            <activation>
+                <property>
+                    <name>payara-micro-start</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+                <dependency>
+                    <groupId>org.mvc-spec.ozark</groupId>
+                    <artifactId>ozark-jersey</artifactId>
+                    <version>${ozark.version}</version>
+                </dependency>    
+            </dependencies>
+            
+        </profile> 
+           
+                 
+        <profile>
+            <id>payara-micro-deploy</id>
+            <activation>
+                <property>
+                    <name>payara-micro-deploy</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+                <dependency>
+                    <groupId>org.mvc-spec.ozark</groupId>
+                    <artifactId>ozark-jersey</artifactId>
+                    <version>${ozark.version}</version>
+                </dependency>    
+            </dependencies>
+            
+        </profile>
+        
+        <profile>
+            <id>payara-micro-package</id>
+            <activation>
+                <property>
+                    <name>payara-micro-package</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+                <dependency>
+                    <groupId>org.mvc-spec.ozark</groupId>
+                    <artifactId>ozark-jersey</artifactId>
+                    <version>${ozark.version}</version>
+                </dependency>    
+            </dependencies>
+            
+        </profile>
+        
+        <profile>
+            <id>openliberty-run</id>
+            <activation>
+                <property>
+                    <name>openliberty-run</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+                <dependency>
+                    <groupId>org.mvc-spec.ozark</groupId>
+                    <artifactId>ozark-resteasy</artifactId>
+                    <version>${ozark.version}</version>
+                </dependency>    
+            </dependencies>
+            
+        </profile> 
+        <profile>
+            <id>openliberty-start</id>
+            <activation>
+                <property>
+                    <name>openliberty-start</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+                <dependency>
+                    <groupId>org.mvc-spec.ozark</groupId>
+                    <artifactId>ozark-resteasy</artifactId>
+                    <version>${ozark.version}</version>
+                </dependency>    
+            </dependencies>
+            
+        </profile> 
+           
+                 
+        <profile>
+            <id>openliberty-deploy</id>
+            <activation>
+                <property>
+                    <name>openliberty-deploy</name>
+                </property>
+            </activation>
+            
+            <dependencies>
+                <dependency>
+                    <groupId>org.mvc-spec.ozark</groupId>
+                    <artifactId>ozark-resteasy</artifactId>
+                    <version>${ozark.version}</version>
+                </dependency>    
+            </dependencies>
+            
+        </profile>
+        
+        <profile>
+            <id>openliberty-package</id>
+            <activation>
+                <property>
+                    <name>openliberty-package</name>
                 </property>
             </activation>
             

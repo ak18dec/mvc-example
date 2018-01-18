@@ -27,7 +27,7 @@
                             </div>
                             <div class="extra">
                                 <div class="ui right floated">
-                                    <i class="large refresh icon" style="color:darkseagreen;cursor: pointer;" title="Refresh" onclick="window.open('${mvc.contextPath}/view/refresh/${f.id}', '_self');"></i>
+                                    <a href="{mvc.uri('DashboardController#refreshFeed' {'id': ${f.id}})}"><i class="large refresh icon" style="color:darkseagreen;cursor: pointer;" title="Refresh"></i></a>
                                     <i class="large trash outline icon" style="color:lightcoral;cursor: pointer;" title="Remove"></i>
                                 </div>
                             </div>

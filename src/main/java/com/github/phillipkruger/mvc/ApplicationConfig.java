@@ -1,6 +1,7 @@
 package com.github.phillipkruger.mvc;
 
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
@@ -14,8 +15,15 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/view")
 public class ApplicationConfig extends Application {
 
+    
+    // NOTE: Not doing this, i.e let the server discover this with scanning, cause the building of URI in a View to break (see 2.3.1. Building URIs in a View)
     @Override
-    public Map<String, Object> getProperties() {
-       return super.getProperties();
-    }   
+    public Set<Class<?>> getClasses() {
+        Set<Class<?>> classes = new HashSet<>();
+        classes.add(com.github.phillipkruger.mvc.MyController.class);
+        classes.add(com.github.phillipkruger.mvc.dashboard.DashboardController.class);
+        classes.add(com.github.phillipkruger.mvc.feed.FeedController.class);
+        return classes;
+    }
+    
 }

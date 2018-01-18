@@ -1,12 +1,12 @@
 package com.github.phillipkruger.mvc.feed;
 
-import java.net.URL;
 import javax.inject.Inject;
 import javax.mvc.Models;
 import javax.mvc.annotation.Controller;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 import lombok.extern.java.Log;
 
 /**
@@ -26,8 +26,8 @@ public class FeedController {
     @Controller
     @GET
     @Path("/{id}")
-    public String getFeed(@PathParam("id") int id) {
+    public Response getFeed(@PathParam("id") int id) {
         models.put("feed", feedService.getFeed(id));
-        return "feed.jsp";
+        return Response.status(Response.Status.OK).entity("feed.jsp").build();
     }
 }
