@@ -1,4 +1,4 @@
-package com.github.phillipkruger.config;
+package com.github.phillipkruger.mvc.config;
 
 import java.net.URL;
 import javax.validation.constraints.NotNull;

@@ -12,10 +12,10 @@
                 
                     <div class="item">
                         <div class="ui tiny image">
-                            <img src="${f.image}" style="cursor: pointer;" onclick="window.open('${mvc.contextPath}/view/feed/${f.id}', '_self');">
+                            <img src="${f.image}" style="cursor: pointer;" onclick="window.open('${mvc.uri('FeedController#getFeed', {'id': f.id})}', '_self');">
                         </div>
                         <div class="content">
-                            <a class="header" href="${mvc.contextPath}/view/feed/${f.id}">${f.title}</a>
+                            <a class="header" href="${mvc.uri('FeedController#getFeed', {'id': f.id})}">${f.title}</a>
                             <div class="meta">
                                 <span>${f.description}</span>
                                 <c:if test="${not empty f.copyright}">
@@ -27,7 +27,7 @@
                             </div>
                             <div class="extra">
                                 <div class="ui right floated">
-                                    <a href="{mvc.uri('DashboardController#refreshFeed' {'id': ${f.id}})}"><i class="large refresh icon" style="color:darkseagreen;cursor: pointer;" title="Refresh"></i></a>
+                                    <a href="${mvc.uri('DashboardController#refreshFeed', {'id': f.id})}"><i class="large refresh icon" style="color:darkseagreen;cursor: pointer;" title="Refresh"></i></a>
                                     <i class="large trash outline icon" style="color:lightcoral;cursor: pointer;" title="Remove"></i>
                                 </div>
                             </div>

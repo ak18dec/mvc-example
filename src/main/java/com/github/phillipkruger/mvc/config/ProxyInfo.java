@@ -1,4 +1,4 @@
-package com.github.phillipkruger.config;
+package com.github.phillipkruger.mvc.config;
 
 import java.util.Base64;
 import javax.annotation.PostConstruct;

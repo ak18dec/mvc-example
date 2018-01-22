@@ -48,7 +48,7 @@
         <javaee.version>7.0</javaee.version>
         <microProfile.version>1.2</microProfile.version>
         <mvc.version>1.0-pr</mvc.version>
-        <ozark.version>1.0.0-m03</ozark.version>
+        <ozark.version>1.0.0-m04-SNAPSHOT</ozark.version>
         
         <!-- Javascript libraries -->
         <semantic-ui.version>2.2.10</semantic-ui.version>
@@ -152,6 +152,7 @@
                                 <include>**/*.css</include>
                                 <include>**/*.jsp</include>
                                 <include>**/*.tag</include>
+                                <include>**/*.xml</include>
                             </includes>
                         </resource>
                     </webResources>

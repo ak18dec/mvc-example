@@ -1,7 +1,7 @@
 package com.github.phillipkruger.mvc.feed;
 
-import com.github.phillipkruger.config.ProxyInfo;
-import com.github.phillipkruger.config.FeedConfig;
+import com.github.phillipkruger.mvc.config.ProxyInfo;
+import com.github.phillipkruger.mvc.config.FeedConfig;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;

@@ -1,0 +1,3 @@
+<glassfish-web-app>
+    <context-root>/${artifactId}</context-root>
+</glassfish-web-app>

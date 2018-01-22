@@ -1,6 +1,6 @@
 package com.github.phillipkruger.mvc.feed;
 
-import com.github.phillipkruger.config.FeedConfig;
+import com.github.phillipkruger.mvc.config.FeedConfig;
 import com.rometools.rome.feed.synd.SyndFeed;
 import java.io.Serializable;
 import java.net.URL;
@@ -55,6 +55,7 @@ public class FeedService implements Serializable{
                 Feed syndFeed = sessionCached.get(hash);
                 feeds.add(syndFeed);
             }else{
+                log.log(Level.FINE, "Loading {0} from source", feedUrl);
                 futureContentList.add(feedFetcher.fetchAsync(feedConfig));
             }
         });

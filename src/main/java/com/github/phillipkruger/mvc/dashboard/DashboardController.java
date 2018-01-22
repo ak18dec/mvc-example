@@ -1,6 +1,6 @@
 package com.github.phillipkruger.mvc.dashboard;
 
-import com.github.phillipkruger.config.ApplicationConfig;
+import com.github.phillipkruger.mvc.config.ApplicationConfig;
 import com.github.phillipkruger.mvc.feed.Feed;
 import com.github.phillipkruger.mvc.feed.FeedService;
 import java.net.URL;
@@ -48,12 +48,6 @@ public class DashboardController {
     @View("dashboard.jsp")
     public void refreshFeed(@PathParam("id") int id) {
         feedService.reload(id);
-    }
-    
-    @GET @Path("/ping")
-    @View("dashboard.jsp")
-    public void ping() {
-        
     }
     
 }
